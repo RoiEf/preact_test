@@ -1,23 +1,35 @@
 import { useContext } from "preact/hooks";
 import { StateContext } from "../context/state-context";
+import { useLocation } from "preact-iso";
 
 export const Header = () => {
   const state = useContext(StateContext);
+  const { url } = useLocation();
+
+  const Link = ({ href, text }: { href: string; text: string }) => {
+    const isActive = url === href;
+
+    return (
+      <a href={href} className={isActive ? "active" : ""}>
+        {text}
+      </a>
+    );
+  };
 
   return (
     <header id="header">
       <h1>Preact App with Microbundle</h1>
       <nav>
-        <a href="/">Home</a>
+        <Link href="/" text="Home" />
         {state?.auth?.value.isAuthenticated ? (
           <>
-            <a href="/wifi">WiFi Settings</a>
-            <a href="/admin">Admin</a>
-            <a href="/updates">Updates</a>
-            <a href="/login">Logout</a>
+            <Link href="/wifi" text="WiFi Settings" />
+            <Link href="/admin" text="Admin" />
+            <Link href="/updates" text="Updates" />
+            <Link href="/login" text="Logout" />
           </>
         ) : (
-          <a href="/login">Login</a>
+          <Link href="/login" text="Login" />
         )}
       </nav>
     </header>
