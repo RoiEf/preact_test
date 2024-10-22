@@ -1,7 +1,8 @@
+import { JSX } from "preact";
+import { useLocation } from "preact-iso";
 import { useSignal, batch } from "@preact/signals";
 import { useContext } from "preact/hooks";
 import { StateContext } from "../context/state-context";
-import { useLocation } from "preact-iso";
 
 export const Login = () => {
   const state = useContext(StateContext);
@@ -11,7 +12,7 @@ export const Login = () => {
   const userName = useSignal("");
   const password = useSignal("");
 
-  const onSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit = (e: JSX.TargetedSubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userName.peek() === "admin" && password.peek() === "12345") {
       state!.auth.value = {
