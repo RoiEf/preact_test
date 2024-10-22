@@ -15,7 +15,7 @@ export const Login = () => {
   const onSubmit = (e: JSX.TargetedSubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userName.peek() === "admin" && password.peek() === "12345") {
-      state!.auth.value = {
+      state!.auth!.value = {
         user: userName.peek(),
         password: password.peek(),
         isAuthenticated: true,
@@ -24,7 +24,7 @@ export const Login = () => {
       newLocation.route("/", true);
     } else {
       batch(() => {
-        state!.auth.value = {
+        state!.auth!.value = {
           user: null,
           password: null,
           isAuthenticated: false,

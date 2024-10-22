@@ -9,7 +9,7 @@ export interface StateContextType {
   }>;
 }
 
-const StateContext = createContext<StateContextType | null>(null);
+const StateContext = createContext<Partial<StateContextType>>({});
 
 const StateContextProvider = (props: any) => {
   const auth = signal({
