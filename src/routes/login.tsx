@@ -40,7 +40,7 @@ export const Login = () => {
     <div id="basePage">
       <div id="small">
         <h1>Login</h1>
-        {error && <h2>Wrong user name or password</h2>}
+        {error.value && <h2>Wrong user name or password</h2>}
         <form onSubmit={onSubmit}>
           <p>
             <input
