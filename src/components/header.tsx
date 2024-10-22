@@ -9,11 +9,12 @@ export const Header = () => {
       <h1>Preact App with Microbundle</h1>
       <nav>
         <a href="/">Home</a>
-        {state?.auth.value.isAuthenticated ? (
+        {state?.auth?.value.isAuthenticated ? (
           <>
             <a href="/wifi">WiFi Settings</a>
-            <a href="/updates">Updates</a>
             <a href="/admin">Admin</a>
+            <a href="/updates">Updates</a>
+            <a href="/login">Logout</a>
           </>
         ) : (
           <a href="/login">Login</a>
