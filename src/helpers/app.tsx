@@ -1,6 +1,6 @@
 import { LocationProvider, ErrorBoundary, Router, Route } from "preact-iso";
 
-import AuthLayout from "./authLayout";
+import AuthRoute from "./authRoute";
 
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
@@ -19,23 +19,12 @@ export const App = () => {
           <Router>
             <Route path="/" component={Home} />
             <Route path="/login" component={Login} />
-            <Route
-              path="/wifi"
-              component={AuthLayout({
-                children: WiFi,
-              })}
-            />
-            <Route
-              path="/admin"
-              component={AuthLayout({
-                children: Admin,
-              })}
-            />
-            <Route
+            <AuthRoute path="/wifi" component={WiFi} authentication={true} />
+            <AuthRoute path="/admin" component={Admin} authentication={true} />
+            <AuthRoute
               path="/updates"
-              component={AuthLayout({
-                children: Updates,
-              })}
+              component={Updates}
+              authentication={true}
             />
           </Router>
           <Footer />
