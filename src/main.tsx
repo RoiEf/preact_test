@@ -1,7 +1,7 @@
-import "preact/debug";
+import "preact/devtools";
 import { render } from "preact";
 import { StateContextProvider } from "./context/state-context";
-import { App } from "./app";
+import { App } from "./helpers/app";
 
 render(
   <StateContextProvider>
