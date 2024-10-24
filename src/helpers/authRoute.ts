@@ -1,9 +1,9 @@
 import { ComponentType, h } from "preact";
-import { useLocation } from "preact-iso";
+import { RoutableProps, useLocation } from "preact-iso";
 import { useContext } from "preact/hooks";
 import { StateContext } from "../context/state-context";
 
-export interface AuthRouteProps {
+export interface AuthRouteProps extends RoutableProps {
   authentication: boolean;
   component: ComponentType<AuthRouteProps>;
 }
