@@ -1,7 +1,6 @@
 import { ComponentType, h } from "preact";
 import { RoutableProps, useLocation } from "preact-iso";
-import { useContext } from "preact/hooks";
-import { StateContext } from "../context/state-context";
+import { useAuth } from "../context/useAuth";
 
 export interface AuthRouteProps extends RoutableProps {
   authentication: boolean;
@@ -10,16 +9,13 @@ export interface AuthRouteProps extends RoutableProps {
 
 export default function AuthRoute(props: AuthRouteProps) {
   const newLocation = useLocation();
-  const state = useContext(StateContext);
+  const { isAuthenticated } = useAuth();
 
-  if (
-    props.authentication &&
-    state.auth?.value.isAuthenticated !== props.authentication
-  ) {
+  if (props.authentication && isAuthenticated !== props.authentication) {
     newLocation.route("/login", false);
   } else if (
     !props.authentication &&
-    state.auth?.value.isAuthenticated !== props.authentication
+    isAuthenticated !== props.authentication
   ) {
     newLocation.route("/", false);
   }

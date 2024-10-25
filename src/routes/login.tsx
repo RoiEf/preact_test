@@ -3,26 +3,25 @@ import { useLocation } from "preact-iso";
 import { useSignal, batch } from "@preact/signals";
 import { useContext } from "preact/hooks";
 import { StateContext } from "../context/state-context";
+import { useAuth } from "../context/useAuth";
 
 export const Login = () => {
   const state = useContext(StateContext);
+  const { reset } = useAuth();
+
   const newLocation = useLocation();
 
   const error = useSignal(false);
   const userName = useSignal("");
   const password = useSignal("");
 
-  const reset = (errorValue: boolean) => {
+  const _reset = (errorValue: boolean) => {
     batch(() => {
-      state!.auth!.value = {
-        user: null,
-        password: null,
-        isAuthenticated: false,
-      };
       userName.value = "";
       password.value = "";
       error.value = errorValue;
     });
+    reset();
   };
 
   const onSubmit = (e: JSX.TargetedSubmitEvent<HTMLFormElement>) => {
@@ -36,59 +35,41 @@ export const Login = () => {
       error.value = false;
       newLocation.route("/", true);
     } else {
-      reset(true);
+      _reset(true);
     }
   };
 
-  if (state.auth?.value.isAuthenticated) {
-    return (
-      <div id="basePage">
-        <div id="small">
-          <h1>Logout</h1>
-          <p class="submit">
+  return (
+    <div id="basePage">
+      <div id="small">
+        <h1>Login</h1>
+        {error.value && <h2>Wrong user name or password</h2>}
+        <form onSubmit={onSubmit}>
+          <p>
             <input
-              type="submit"
-              name="commit"
-              value="Logout"
-              onClick={() => reset(false)}
+              type="text"
+              placeholder="Username"
+              value={userName}
+              onInput={(e) => {
+                userName.value = e.currentTarget.value;
+              }}
             />
           </p>
-        </div>
+          <p>
+            <input
+              type="text"
+              placeholder="Password"
+              value={password}
+              onInput={(e) => {
+                password.value = e.currentTarget.value;
+              }}
+            />
+          </p>
+          <p class="submit">
+            <input type="submit" name="commit" value="Login" />
+          </p>
+        </form>
       </div>
-    );
-  } else {
-    return (
-      <div id="basePage">
-        <div id="small">
-          <h1>Login</h1>
-          {error.value && <h2>Wrong user name or password</h2>}
-          <form onSubmit={onSubmit}>
-            <p>
-              <input
-                type="text"
-                placeholder="Username"
-                value={userName}
-                onInput={(e) => {
-                  userName.value = e.currentTarget.value;
-                }}
-              />
-            </p>
-            <p>
-              <input
-                type="text"
-                placeholder="Password"
-                value={password}
-                onInput={(e) => {
-                  password.value = e.currentTarget.value;
-                }}
-              />
-            </p>
-            <p class="submit">
-              <input type="submit" name="commit" value="Login" />
-            </p>
-          </form>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 };

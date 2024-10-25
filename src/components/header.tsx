@@ -1,9 +1,8 @@
-import { useContext } from "preact/hooks";
-import { StateContext } from "../context/state-context";
 import { useLocation } from "preact-iso";
+import { useAuth } from "../context/useAuth";
 
 export const Header = () => {
-  const state = useContext(StateContext);
+  const { isAuthenticated } = useAuth();
   const { url } = useLocation();
 
   const Link = ({ href, text }: { href: string; text: string }) => {
@@ -21,12 +20,12 @@ export const Header = () => {
       <h1>Preact App with Microbundle</h1>
       <nav>
         <Link href="/" text="Home" />
-        {state?.auth?.value.isAuthenticated ? (
+        {isAuthenticated ? (
           <>
             <Link href="/wifi" text="WiFi Settings" />
             <Link href="/admin" text="Admin" />
             <Link href="/updates" text="Updates" />
-            <Link href="/login" text="Logout" />
+            <Link href="/logout" text="Logout" />
           </>
         ) : (
           <Link href="/login" text="Login" />
